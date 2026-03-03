@@ -16,6 +16,7 @@ public class DashboardPage extends BasePage {
     @Step("Verify Dashboard page navigation")
     public DashboardPage verifyDashboardNavigation() {
         page.waitForURL("**/Home");
+        attachScreenshot(page, "Navigated to dashboard screen");
 
         return this;
     }
