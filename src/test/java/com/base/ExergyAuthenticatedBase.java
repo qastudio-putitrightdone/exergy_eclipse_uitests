@@ -8,9 +8,12 @@ public class ExergyAuthenticatedBase extends BaseTest {
 
     @BeforeMethod
     protected void loginToExergy(ITestResult iTestResult) {
-        ExergyUsers exergyUsers = (ExergyUsers) iTestResult.getParameters()[0];
+        ExergyUsers exergyUsers = (ExergyUsers) iTestResult
+                .getParameters()[0];
 
         LoginPage loginPage = new LoginPage(page);
-        loginPage.loginToExergyApp(exergyUsers.getUserName(), exergyUsers.getPassword());
+        loginPage
+                .loginToExergyApp(exergyUsers.getUserName(), exergyUsers.getPassword())
+                .verifyDashboardNavigation();
     }
 }

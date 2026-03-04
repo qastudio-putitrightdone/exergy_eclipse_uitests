@@ -2,7 +2,6 @@ package com.exergy.pages;
 
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
-import org.athena.BasePage;
 
 public class DashboardPage extends ExergyBasePage {
 
