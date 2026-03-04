@@ -4,7 +4,7 @@ import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 import org.athena.BasePage;
 
-public class DashboardPage extends BasePage {
+public class DashboardPage extends ExergyBasePage {
 
     private Page page;
 

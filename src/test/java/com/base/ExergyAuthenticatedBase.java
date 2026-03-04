@@ -4,7 +4,7 @@ import com.exergy.pages.LoginPage;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeMethod;
 
-public class AuthenticatedBasse extends BaseTest {
+public class ExergyAuthenticatedBase extends BaseTest {
 
     @BeforeMethod
     protected void loginToExergy(ITestResult iTestResult) {

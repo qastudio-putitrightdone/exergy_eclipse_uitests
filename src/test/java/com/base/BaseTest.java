@@ -4,12 +4,16 @@ import com.exergy.pages.CapturePolicyPage;
 import com.exergy.pages.DashboardPage;
 import com.exergy.utils.PageType;
 import com.microsoft.playwright.Page;
+import io.qameta.allure.Allure;
+import io.qameta.allure.model.Status;
 import org.athena.BasePage;
 import org.athena.LaunchBrowser;
 import org.athena.ReadConfigData;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Properties;
 
@@ -36,7 +40,21 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void cleanUp() {
+    public void cleanUp(ITestResult iTestResult) {
+        if (iTestResult.getStatus() == ITestResult.FAILURE) {
+            byte[] screenshot = page.screenshot();
+            Allure.addAttachment("Failed test" + System.currentTimeMillis(), "image/png",
+                    new ByteArrayInputStream(screenshot), "png");
+            if (iTestResult.getThrowable().getMessage().contains("timeout")) {
+                Allure.step("Test case failed: " + iTestResult.getName(), Status.BROKEN);
+                Allure.label("Failure Reason", "Timeout Error / Locator not available/actionable/missing/hidden");
+            } else {
+                Allure.step("Test case failed: " + iTestResult.getName(), Status.FAILED);
+                Allure.label("Failure Reason", "Assertion Failure , Product Defect");
+            }
+        } else if (iTestResult.getStatus() == ITestResult.SKIP) {
+            Allure.step("Test case skipped: "+ iTestResult.getTestName(), Status.SKIPPED );
+        }
         launchBrowser.CleanUpAndGarbageCollect();
     }
 

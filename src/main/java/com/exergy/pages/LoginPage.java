@@ -5,7 +5,7 @@ import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 import org.athena.BasePage;
 
-public class LoginPage extends BasePage {
+public class LoginPage extends ExergyBasePage {
 
     private Page page;
 
