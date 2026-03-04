@@ -9,6 +9,8 @@ import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
 import org.testng.annotations.Test;
 
+import static com.exergy.constants.CapturePolicyConstants.*;
+
 public class CapturePolicyTests extends ExergyAuthenticatedBase {
 
     @Epic("Onboarding")
@@ -19,6 +21,12 @@ public class CapturePolicyTests extends ExergyAuthenticatedBase {
         CapturePolicyPage capturePolicyPage = navigateTo(PageType.CAPTURE_POLICY);
         capturePolicyPage
                 .createRandomClient()
-                .checkPolicyNumberGenerated();
+                .checkPolicyNumberGenerated()
+                .clickIsFixedCheckbox()
+                .addBenefitDetails(PREMIUM_COVERED)
+                .addPaymentDetails(CASH)
+                .addBeneficiaryDetails()
+                .addComission()
+                .clickOnValidateButton();
     }
 }

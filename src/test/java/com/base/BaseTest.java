@@ -37,6 +37,7 @@ public class BaseTest {
         String browserToLaunch = fetchBaseConfig().getProperty("Browser");
         List<Object> farmeworkObjects = launchBrowser.initiateBrowserAndApplication(browserToLaunch, appUrl);
         page = (Page) farmeworkObjects.get(2);
+        page.setDefaultTimeout(60000);
     }
 
     @AfterMethod

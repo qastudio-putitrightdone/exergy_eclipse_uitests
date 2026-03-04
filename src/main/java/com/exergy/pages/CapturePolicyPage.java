@@ -8,6 +8,7 @@ import static com.exergy.constants.CapturePolicyConstants.*;
 import static com.exergy.utils.TestDataGenerator.*;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+
 import java.util.regex.Pattern;
 
 public class CapturePolicyPage extends ExergyBasePage {
@@ -24,6 +25,27 @@ public class CapturePolicyPage extends ExergyBasePage {
     private Locator productDropdown;
     private Locator addButton;
     private Locator policyNumberInput;
+    private Locator isFixedCheckBox;
+    private Locator editBenefitIcon;
+    private Locator coverInput;
+    private Locator closeButton;
+    private Locator paymentTypeDropdown;
+    private Locator addBeneficiaryIcon;
+    private Locator selectClientDropdown;
+    private Locator relationshipDropdown;
+    private Locator beneficieryTypeDropdown;
+    private Locator beneficieryPercntInput;
+    private Locator okBeneficieryButton;
+    private Locator editCommissionIcon;
+    private Locator addCommisionButton;
+    private Locator searchLevelCodeInput;
+    private Locator searchLevelCodeIcon;
+    private Locator distributionContractDropdown;
+    private Locator okComissionButton;
+    private Locator cancelCommsionButton;
+    private Locator validateButton;
+    private Locator toastMessage;
+    private Locator proposerLink;
 
     public CapturePolicyPage(Page page) {
         super(page);
@@ -38,6 +60,27 @@ public class CapturePolicyPage extends ExergyBasePage {
         this.productDropdown = page.locator("#cboSelectProduct");
         this.addButton = page.locator("#btnAdd");
         this.policyNumberInput = page.locator("#txtPolicyRefNo");
+        this.isFixedCheckBox = page.locator("#chkIsCommencedateFixed");
+        this.editBenefitIcon = page.locator("#EditBenefit");
+        this.coverInput = page.locator("#editCover");
+        this.closeButton = page.locator("#btnCloseModal");
+        this.paymentTypeDropdown = page.locator("#PaymentTypeID");
+        this.addBeneficiaryIcon = page.locator("#iconShowAddBeneficiary");
+        this.selectClientDropdown = page.locator("#cboSelectClient");
+        this.relationshipDropdown = page.locator("#RelationshipID");
+        this.beneficieryTypeDropdown = page.locator("#BeneficiaryTypeID");
+        this.beneficieryPercntInput = page.locator("#BeneficiaryPercentage");
+        this.okBeneficieryButton = page.locator("#btnAddBeneficiary");
+        this.editCommissionIcon = page.locator("#EditCommission");
+        this.addCommisionButton = page.locator("#btnAddComms");
+        this.searchLevelCodeInput = page.locator("#txtSearchCriteria");
+        this.searchLevelCodeIcon = page.locator("#dosearch");
+        this.distributionContractDropdown = page.locator("#DistributionTypeID");
+        this.okComissionButton = page.locator("#bntOK");
+        this.cancelCommsionButton = page.locator("#btnCancelModal");
+        this.validateButton = page.locator("#btnValidate");
+        this.toastMessage = page.locator(".blazored-toast-message");
+        this.proposerLink = page.locator("#ProposerSalutation");
     }
 
     @Step("Enter identity number")
@@ -129,4 +172,194 @@ public class CapturePolicyPage extends ExergyBasePage {
 
         return this;
     }
+
+    @Step("Click on fixed check box")
+    public CapturePolicyPage clickIsFixedCheckbox() {
+        isFixedCheckBox.check();
+        attachScreenshot(page, "Clicking is fixed checkbox");
+
+        return this;
+    }
+
+    @Step("Click on edit benefit icon")
+    private CapturePolicyPage clickOnEditBenefitIcon() {
+        editBenefitIcon.click();
+
+        return this;
+    }
+
+    @Step("Enter cover")
+    private CapturePolicyPage enterCover(String valueToEnter) {
+        coverInput.clear();
+        coverInput.fill(valueToEnter);
+
+        return this;
+    }
+
+    @Step("Click on close button")
+    private CapturePolicyPage clickOnCloseButton() {
+        closeButton.click();
+
+        return this;
+    }
+
+    @Step("Adding benefit details")
+    public CapturePolicyPage addBenefitDetails(String coverAmount) {
+        clickOnEditBenefitIcon()
+                .enterCover(coverAmount)
+                .clickOnCloseButton();
+        attachScreenshot(page, "Added benefit Information.");
+
+        return this;
+    }
+
+    @Step("Selecting payment type")
+    private CapturePolicyPage selectPaymentType(String valueToSelect) {
+        selectDropdownValue(paymentTypeDropdown, valueToSelect);
+
+        return this;
+    }
+
+    @Step("Adding payment details")
+    public CapturePolicyPage addPaymentDetails(String paymentType) {
+        selectPaymentType(paymentType);
+        attachScreenshot(page, "Added Payment details");
+
+        return this;
+    }
+
+    @Step("Click on add beneficiary button")
+    private CapturePolicyPage clickOnAddBeneficieryIcon() {
+        addBeneficiaryIcon.click();
+
+        return this;
+    }
+
+    @Step("Select client drop down value")
+    private CapturePolicyPage selectClientValue(String valueToSelect) {
+        selectDropdownValue(selectClientDropdown, valueToSelect);
+
+        return this;
+    }
+
+    @Step("Select relationship drop down value")
+    private CapturePolicyPage selectRelationshipValue(String valueToSelect) {
+        selectDropdownValue(relationshipDropdown, valueToSelect);
+
+        return this;
+    }
+
+    @Step("Select beneficiary type drop down value")
+    private CapturePolicyPage selectBeneficieryType(String valueToSelect) {
+        selectDropdownValue(beneficieryTypeDropdown, valueToSelect);
+
+        return this;
+    }
+
+    @Step("Enter beneficiary percentage value")
+    private CapturePolicyPage enterbeneceryPercnt(String valueToEnter) {
+        beneficieryPercntInput.clear();
+        beneficieryPercntInput.fill(valueToEnter);
+
+        return this;
+    }
+
+    @Step("Click on OK button")
+    private void clickOkBeneficieryButton() {
+        okBeneficieryButton.click();
+    }
+
+    @Step("Adding beneficiary details")
+    public CapturePolicyPage addBeneficiaryDetails() {
+        clickOnAddBeneficieryIcon()
+                .selectClientValue(SEARCH_FOR_CLIENT)
+                .enterIdentityType(generateRandomNumber(12))
+                .clickSearchIcon()
+                .selectTitleValue(TITLE)
+                .enterFirstName(generateRandomValue(7))
+                .enterSurname(generateRandomValue(7))
+                .selectGender(MALE)
+                .enterDateOfBirth(dateYearsBackIso(40))
+                .selectRelationshipValue(BROTHER)
+                .selectBeneficieryType(BENEFICIERY_TYPE_DEATH_TRANSFER)
+                .enterbeneceryPercnt(BENEFICIERY_PERCENT)
+                .clickOkBeneficieryButton();
+        attachScreenshot(page, "Adding beneficiry information");
+
+        return this;
+    }
+
+    @Step("Click on edit comission details")
+    private CapturePolicyPage clickEditComissionIcon() {
+        editCommissionIcon.click();
+
+        return this;
+    }
+
+    @Step("Click on add commission button")
+    private CapturePolicyPage clickAddComissionButton() {
+        addCommisionButton.click();
+
+        return this;
+    }
+
+    @Step("Searching level code")
+    private CapturePolicyPage searchLevelCode(String valueToSearch) {
+        searchLevelCodeInput.click();
+        searchLevelCodeInput.clear();
+        searchLevelCodeInput.fill(valueToSearch);
+        searchLevelCodeIcon.click();
+
+        return this;
+    }
+
+    @Step("Select Distribution contract drop down value")
+    private CapturePolicyPage selectDistributionContractValue(String valueToSelect) {
+        selectDropdownValue(distributionContractDropdown, valueToSelect);
+
+        return this;
+    }
+
+    @Step("Click on OK commission button")
+    private CapturePolicyPage clickOkComissionButton() {
+        okComissionButton.click();
+
+        return this;
+    }
+
+    @Step("Close commission modal pop up")
+    private CapturePolicyPage closeCommissionButton() {
+        page.waitForCondition(()-> cancelCommsionButton.all().size() == 1);
+        cancelCommsionButton.click();
+
+        return this;
+    }
+
+    @Step("Adding commission details")
+    public CapturePolicyPage addComission() {
+        clickEditComissionIcon()
+                .clickAddComissionButton()
+                .searchLevelCode(LEVEL_CODE)
+                .selectDistributionContractValue(ADVANCABLE_COMMISSION)
+                .clickOkComissionButton()
+                .closeCommissionButton();
+        attachScreenshot(page, "Adding commission information");
+
+        return this;
+    }
+
+    @Step("Click on validate button")
+    public CapturePolicyPage clickOnValidateButton() {
+        validateButton.click();
+        page.waitForCondition(() -> toastMessage.isVisible());
+
+        return this;
+    }
+
+    private EditClientPage clickOnProposerLink() {
+        Page page1 = page.waitForPopup(() -> proposerLink.click());
+
+        return new EditClientPage(page1);
+    }
 }
+
