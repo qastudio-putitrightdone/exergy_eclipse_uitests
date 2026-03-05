@@ -50,6 +50,8 @@ public class CapturePolicyPage extends ExergyBasePage {
     private Locator medicalReqCheckbox1;
     private Locator medicalReqCheckbox2;
     private Locator receiveRequirementsButton;
+    private Locator addPolicyPopup;
+    private Locator clientRadioButton;
 
     public CapturePolicyPage(Page page) {
         super(page);
@@ -88,6 +90,8 @@ public class CapturePolicyPage extends ExergyBasePage {
         this.medicalReqCheckbox1 = page.locator("#chkRequiremenrReceived-1");
         this.medicalReqCheckbox2 = page.locator("#chkRequiremenrReceived-0");
         this.receiveRequirementsButton = page.locator("#btnReceiveRequirements");
+        this.addPolicyPopup = page.locator("#modalAddDiv");
+        this.clientRadioButton = page.locator("#radClient");
     }
 
     @Step("Enter identity number")
@@ -405,6 +409,22 @@ public class CapturePolicyPage extends ExergyBasePage {
         Page page1 = page.waitForPopup(() -> proposerLink.click());
 
         return new EditClientPage(page1);
+    }
+
+    @Step("Check add policy pop up")
+    public CapturePolicyPage checkAddPolicyPopup() {
+        assertThat(addPolicyPopup).isVisible();
+        attachScreenshot(page, "Check Add policy pop up");
+
+        return this;
+    }
+
+    @Step("Check client radio button selected")
+    public CapturePolicyPage checkClientRadioSelected() {
+        assertThat(clientRadioButton).isChecked();
+        attachScreenshot(page, "Check Client radio option is selected");
+
+        return this;
     }
 }
 

@@ -17,7 +17,8 @@ public class CapturePolicyTests extends ExergyAuthenticatedBase {
     @Epic("Onboarding")
     @Feature("Capture Policy")
     @Story("Creating new policy")
-    @Test(dataProviderClass = CapturePolicyData.class, dataProvider = "userData")
+    @Test(dataProviderClass = CapturePolicyData.class, dataProvider = "userData",
+            description = "Adding new policy")
     public void checkPolicyCreation(ExergyUsers exergyUsers) {
         CapturePolicyPage capturePolicyPage = navigateTo(PageType.CAPTURE_POLICY);
         capturePolicyPage
@@ -38,5 +39,27 @@ public class CapturePolicyTests extends ExergyAuthenticatedBase {
                 .checkMedicalReqCheckboxes()
                 .clickOnValidateButton()
                 .checkPolicyCreationMessage();
+    }
+
+    @Epic("Onboarding")
+    @Feature("Capture Policy")
+    @Story("Creating new policy")
+    @Test(dataProviderClass = CapturePolicyData.class, dataProvider = "userData",
+            description = "Verify Add new client pop up")
+    public void checkNewPolicyCreationPopup(ExergyUsers exergyUsers) {
+        CapturePolicyPage capturePolicyPage = navigateTo(PageType.CAPTURE_POLICY);
+        capturePolicyPage
+                .checkAddPolicyPopup();
+    }
+
+    @Epic("Onboarding")
+    @Feature("Capture Policy")
+    @Story("Creating new policy")
+    @Test(dataProviderClass = CapturePolicyData.class, dataProvider = "userData",
+            description = "Verify Client radio option is selected")
+    public void checkClientRadioOption(ExergyUsers exergyUsers) {
+        CapturePolicyPage capturePolicyPage = navigateTo(PageType.CAPTURE_POLICY);
+        capturePolicyPage
+                .checkClientRadioSelected();
     }
 }
