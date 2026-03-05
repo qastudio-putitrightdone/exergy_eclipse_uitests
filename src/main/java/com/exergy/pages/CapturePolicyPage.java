@@ -5,6 +5,7 @@ import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
 import static com.exergy.constants.CapturePolicyConstants.*;
+import static com.exergy.constants.PolicyMessageConstants.POLICY_CREATED_MESSAGE;
 import static com.exergy.utils.TestDataGenerator.*;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
@@ -46,6 +47,9 @@ public class CapturePolicyPage extends ExergyBasePage {
     private Locator validateButton;
     private Locator toastMessage;
     private Locator proposerLink;
+    private Locator medicalReqCheckbox1;
+    private Locator medicalReqCheckbox2;
+    private Locator receiveRequirementsButton;
 
     public CapturePolicyPage(Page page) {
         super(page);
@@ -81,6 +85,9 @@ public class CapturePolicyPage extends ExergyBasePage {
         this.validateButton = page.locator("#btnValidate");
         this.toastMessage = page.locator(".blazored-toast-message");
         this.proposerLink = page.locator("#ProposerSalutation");
+        this.medicalReqCheckbox1 = page.locator("#chkRequiremenrReceived-1");
+        this.medicalReqCheckbox2 = page.locator("#chkRequiremenrReceived-0");
+        this.receiveRequirementsButton = page.locator("#btnReceiveRequirements");
     }
 
     @Step("Enter identity number")
@@ -348,15 +355,53 @@ public class CapturePolicyPage extends ExergyBasePage {
         return this;
     }
 
-    @Step("Click on validate button")
-    public CapturePolicyPage clickOnValidateButton() {
-        validateButton.click();
-        page.waitForCondition(() -> toastMessage.isVisible());
+    @Step("Click on received requirement button")
+    private CapturePolicyPage clickOnReceiveReqButton() {
+        receiveRequirementsButton.click();
+        page.waitForCondition(() -> !receiveRequirementsButton.isVisible());
 
         return this;
     }
 
-    private EditClientPage clickOnProposerLink() {
+    @Step("Click on medical requirement check boxes")
+    public CapturePolicyPage checkMedicalReqCheckboxes() {
+        medicalReqCheckbox1.check();
+        medicalReqCheckbox2.check();
+        clickOnReceiveReqButton();
+        attachScreenshot(page, "Selecting medical Requirements checkboxes");
+
+        return this;
+    }
+
+    @Step("Click on validate button to check error toast message")
+    public CapturePolicyPage clickOnValidateButtonCheckError() {
+        validateButton.click();
+        page.waitForCondition(() -> toastMessage.isVisible());
+        page.waitForCondition(() -> !toastMessage.isVisible());
+        attachScreenshot(page, "Clicking Validate button");
+
+        return this;
+    }
+
+    @Step("Click on validate button")
+    public CapturePolicyPage clickOnValidateButton() {
+        validateButton.click();
+        attachScreenshot(page, "Clicking validate button to create policy");
+
+        return this;
+    }
+
+    @Step("Check policy creation toast message")
+    public CapturePolicyPage checkPolicyCreationMessage() {
+        page.waitForCondition(() -> toastMessage.isVisible());
+        assertThat(toastMessage).hasText(POLICY_CREATED_MESSAGE);
+        attachScreenshot(page, "Checking policy creation toast  message");
+
+        return this;
+    }
+
+    @Step("Click on proposer name link")
+    public EditClientPage clickOnProposerLink() {
         Page page1 = page.waitForPopup(() -> proposerLink.click());
 
         return new EditClientPage(page1);

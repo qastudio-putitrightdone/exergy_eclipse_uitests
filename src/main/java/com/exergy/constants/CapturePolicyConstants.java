@@ -1,5 +1,7 @@
 package com.exergy.constants;
 
+import java.time.format.SignStyle;
+
 public class CapturePolicyConstants {
 
     public static final String TITLE = "Mr";
@@ -12,5 +14,10 @@ public class CapturePolicyConstants {
     public static final String LEVEL_CODE = "50014";
     public static final String ADVANCABLE_COMMISSION = "Advancable Commission";
     public static final String CASH = "Cash";
-    public static final String PREMIUM_COVERED = "500000";
+    public static final String PREMIUM_COVERED = "1000000";
+    public static final String MARRIED = "Married";
+    public static final String BGCSE = "BGCSE";
+    public static final String BOTSWANA = "Botswana";
+    public static final String INCOME_GROUP = "10,000 - 19,999";
+    public static final String NON_SMOKER = "Non-smoker < 6 months";
 }

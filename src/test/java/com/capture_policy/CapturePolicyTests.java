@@ -3,6 +3,7 @@ package com.capture_policy;
 import com.base.ExergyAuthenticatedBase;
 import com.base.ExergyUsers;
 import com.exergy.pages.CapturePolicyPage;
+import com.exergy.pages.EditClientPage;
 import com.exergy.utils.PageType;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -15,9 +16,9 @@ public class CapturePolicyTests extends ExergyAuthenticatedBase {
 
     @Epic("Onboarding")
     @Feature("Capture Policy")
-    @Story("Add Client")
+    @Story("Creating new policy")
     @Test(dataProviderClass = CapturePolicyData.class, dataProvider = "userData")
-    public void checkClientCreation(ExergyUsers exergyUsers) {
+    public void checkPolicyCreation(ExergyUsers exergyUsers) {
         CapturePolicyPage capturePolicyPage = navigateTo(PageType.CAPTURE_POLICY);
         capturePolicyPage
                 .createRandomClient()
@@ -26,7 +27,16 @@ public class CapturePolicyTests extends ExergyAuthenticatedBase {
                 .addBenefitDetails(PREMIUM_COVERED)
                 .addPaymentDetails(CASH)
                 .addBeneficiaryDetails()
-                .addComission()
-                .clickOnValidateButton();
+                .addComission();
+        EditClientPage editClientPage = capturePolicyPage
+                .clickOnProposerLink();
+        editClientPage
+                .selectClientAdditionalDetails();
+        capturePolicyPage = new CapturePolicyPage(page);
+        capturePolicyPage
+                .clickOnValidateButtonCheckError()
+                .checkMedicalReqCheckboxes()
+                .clickOnValidateButton()
+                .checkPolicyCreationMessage();
     }
 }
