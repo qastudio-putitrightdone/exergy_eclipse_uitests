@@ -2,5 +2,6 @@ package com.exergy.utils;
 
 public enum PageType {
     DASHBOARD,
-    CAPTURE_POLICY
+    CAPTURE_POLICY,
+    POLICY_SEARCH
 }

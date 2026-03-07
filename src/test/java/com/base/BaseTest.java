@@ -2,8 +2,10 @@ package com.base;
 
 import com.exergy.pages.CapturePolicyPage;
 import com.exergy.pages.DashboardPage;
+import com.exergy.pages.PolicySearchPage;
 import com.exergy.utils.PageType;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import io.qameta.allure.Allure;
 import io.qameta.allure.model.Status;
 import org.athena.BasePage;
@@ -38,6 +40,7 @@ public class BaseTest {
         List<Object> farmeworkObjects = launchBrowser.initiateBrowserAndApplication(browserToLaunch, appUrl);
         page = (Page) farmeworkObjects.get(2);
         page.setDefaultTimeout(60000);
+        PlaywrightAssertions.setDefaultAssertionTimeout(60000);
     }
 
     @AfterMethod
@@ -70,6 +73,10 @@ public class BaseTest {
             case CAPTURE_POLICY:
                 page.navigate(baseUrl + CAPTURE_POLICY_PATH);
                 return (T) new CapturePolicyPage(page);
+
+            case POLICY_SEARCH:
+                page.navigate(baseUrl + POLICY_SEARCH_PATH);
+                return (T) new PolicySearchPage(page);
 
             default:
                 throw new IllegalArgumentException("Unknown page: " + pageType);

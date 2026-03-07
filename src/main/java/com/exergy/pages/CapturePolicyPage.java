@@ -316,7 +316,7 @@ public class CapturePolicyPage extends ExergyBasePage {
 
     @Step("Searching level code")
     private CapturePolicyPage searchLevelCode(String valueToSearch) {
-        searchLevelCodeInput.click();
+        searchLevelCodeInput.dblclick();
         searchLevelCodeInput.clear();
         searchLevelCodeInput.fill(valueToSearch);
         searchLevelCodeIcon.click();

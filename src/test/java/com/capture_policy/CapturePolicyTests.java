@@ -33,7 +33,6 @@ public class CapturePolicyTests extends ExergyAuthenticatedBase {
                 .clickOnProposerLink();
         editClientPage
                 .selectClientAdditionalDetails();
-        capturePolicyPage = new CapturePolicyPage(page);
         capturePolicyPage
                 .clickOnValidateButtonCheckError()
                 .checkMedicalReqCheckboxes()

@@ -14,7 +14,7 @@ public class DashboardPage extends ExergyBasePage {
 
     @Step("Verify Dashboard page navigation")
     public DashboardPage verifyDashboardNavigation() {
-        page.waitForURL("**/Home");
+        page.waitForURL("**/home/**");
         attachScreenshot(page, "Navigated to dashboard screen");
 
         return this;
