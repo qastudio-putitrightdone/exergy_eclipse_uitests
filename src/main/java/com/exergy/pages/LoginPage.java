@@ -48,6 +48,7 @@ public class LoginPage extends ExergyBasePage {
         enterUsername(username)
                 .enterPassword(password)
                 .clickOnLoginButton();
+        waitForPageLoad();
 
         return new DashboardPage(page);
     }
