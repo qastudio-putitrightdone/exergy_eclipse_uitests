@@ -2,9 +2,11 @@ package com.exergy.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.TimeoutError;
 import io.qameta.allure.Step;
 
 import static com.exergy.constants.CapturePolicyConstants.*;
+import static com.exergy.constants.PolicyMessageConstants.LEVEL_CODE_ISSUE;
 import static com.exergy.constants.PolicyMessageConstants.POLICY_CREATED_MESSAGE;
 import static com.exergy.utils.TestDataGenerator.*;
 
@@ -316,9 +318,14 @@ public class CapturePolicyPage extends ExergyBasePage {
 
     @Step("Searching level code")
     private CapturePolicyPage searchLevelCode(String valueToSearch) {
-        searchLevelCodeInput.dblclick();
+        searchLevelCodeInput.click();
         searchLevelCodeInput.clear();
         searchLevelCodeInput.fill(valueToSearch);
+        if (searchLevelCodeInput.getAttribute("value") == null) {
+            searchLevelCodeInput.click(new Locator.ClickOptions().setDelay(3000));
+            searchLevelCodeInput.clear();
+            searchLevelCodeInput.fill(valueToSearch);
+        }
         searchLevelCodeIcon.click();
 
         return this;
@@ -407,6 +414,7 @@ public class CapturePolicyPage extends ExergyBasePage {
     @Step("Click on proposer name link")
     public EditClientPage clickOnProposerLink() {
         Page page1 = page.waitForPopup(() -> proposerLink.click());
+        waitForPageLoad();
 
         return new EditClientPage(page1);
     }
