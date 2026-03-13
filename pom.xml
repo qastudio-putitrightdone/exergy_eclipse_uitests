@@ -24,7 +24,7 @@
         <dependency>
             <groupId>com.github.qastudio-putitrightdone.AthenaBasePlaywright</groupId>
             <artifactId>base</artifactId>
-            <version>57a58cfd9c</version>
+            <version>5f9dfd5705</version>
         </dependency>
         <dependency>
             <groupId>io.qameta.allure</groupId>
