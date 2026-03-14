@@ -7,6 +7,6 @@ public class PolicySearchData {
 
     @DataProvider(name = "userData")
     public Object[][] exergyData() {
-        return new Object[][] {{new ExergyUsers("OtariD", "password")}};
+        return new Object[][] {{new ExergyUsers("HandeS", "K1lim@njaro2026")}};
     }
 }

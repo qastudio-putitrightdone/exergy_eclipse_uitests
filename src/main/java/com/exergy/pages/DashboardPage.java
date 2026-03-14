@@ -4,6 +4,8 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import io.qameta.allure.Step;
 
+import java.util.regex.Pattern;
+
 import static com.exergy.constants.PolicyMessageConstants.POLICY_REF_NOT_FOUND;
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
@@ -23,7 +25,7 @@ public class DashboardPage extends ExergyBasePage {
 
     @Step("Verify Dashboard page navigation")
     public DashboardPage verifyDashboardNavigation() {
-        page.waitForURL("**/home**");
+        page.waitForURL(Pattern.compile(".*/home.*", Pattern.CASE_INSENSITIVE));
         attachScreenshot(page, "Navigated to dashboard screen");
 
         return this;

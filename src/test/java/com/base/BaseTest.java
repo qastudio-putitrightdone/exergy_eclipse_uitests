@@ -5,6 +5,7 @@ import com.exergy.pages.DashboardPage;
 import com.exergy.pages.PolicySearchPage;
 import com.exergy.utils.PageType;
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.assertions.PlaywrightAssertions;
 import io.qameta.allure.Allure;
@@ -14,9 +15,12 @@ import org.athena.LaunchBrowser;
 import org.athena.ReadConfigData;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +36,7 @@ public class BaseTest {
 
     protected ThreadLocal<Page> playwrightPage = new ThreadLocal<>();
     protected ThreadLocal<Browser> browserThread = new ThreadLocal<>();
+    protected ThreadLocal<BrowserContext> browserContextThreadLocal = new ThreadLocal<>();
 
     private static Properties fetchBaseConfig() {
         String baseConfig = System.getProperty("user.dir") + "/src/main/resources/config.properties";
@@ -42,7 +47,7 @@ public class BaseTest {
     @BeforeMethod
     public void initiateAndLaunchBrowser() {
         List<Object> frameworkObjects = new ArrayList<>();
-        String appUrl = fetchBaseConfig().getProperty("url");
+        String appUrl = fetchBaseConfig().getProperty("baseUrl");
         String browserToLaunch = fetchBaseConfig().getProperty("Browser");
         if (!exergySessionManager.checkStorageState()) {
             frameworkObjects = launchBrowser.initiateBrowserAndApplication(browserToLaunch, appUrl);
@@ -52,6 +57,7 @@ public class BaseTest {
         }
         playwrightPage.set((Page) frameworkObjects.get(2));
         browserThread.set((Browser) frameworkObjects.get(3));
+        browserContextThreadLocal.set((BrowserContext) frameworkObjects.get(1));
         playwrightPage.get().setDefaultTimeout(60000);
         PlaywrightAssertions.setDefaultAssertionTimeout(60000);
         playwrightPage.get().setDefaultNavigationTimeout(60000);
@@ -75,6 +81,17 @@ public class BaseTest {
         }
         playwrightPage.get().close();
         launchBrowser.CleanUpAndGarbageCollect();
+    }
+
+    @AfterSuite
+    public void cleanStorageState() {
+        if(exergySessionManager.checkStorageState()) {
+            try {
+                Files.delete(exergySessionManager.getStorageState());
+            } catch (IOException e) {
+                System.out.println("No File found for storage state");
+            }
+        }
     }
 
     protected <T extends BasePage> T navigateTo(PageType pageType) {
