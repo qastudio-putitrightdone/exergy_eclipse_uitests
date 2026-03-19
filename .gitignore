@@ -44,3 +44,5 @@ build/
 
 allure-results/*
 allure-report/*
+common/allure-results/*
+**/allure-results/*
