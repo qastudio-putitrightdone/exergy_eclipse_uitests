@@ -19,4 +19,10 @@ public class DashbaordTests extends ExergyAuthenticatedBase {
                 .clickOnOpenButton()
                 .checkPolicyRefNotFoundPopup();
     }
+
+    @Test
+    public void checkDashboardNavigation(ExergyUsers exergyUsers) {
+        DashboardPage dashboardPage = navigateTo(PageType.DASHBOARD);
+        dashboardPage.verifyDashboardNavigation();
+    }
 }

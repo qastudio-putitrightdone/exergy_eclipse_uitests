@@ -53,6 +53,16 @@ public class TestDataGenerator {
         return generateRandomValue(8) + "@" + generateRandomValue(5) + ".com";
     }
 
+    public static String generateRandomName() {
+        int length = RANDOM.nextInt(6) + 5; // Random length between 5 and 10
+        StringBuilder sb = new StringBuilder();
+        sb.append(ALPHA_UPPER.charAt(RANDOM.nextInt(ALPHA_UPPER.length())));
+        for (int i = 1; i < length; i++) {
+            sb.append(ALPHA_LOWER.charAt(RANDOM.nextInt(ALPHA_LOWER.length())));
+        }
+        return sb.toString();
+    }
+
     public static String firstDayOfMonth(int monthsBack) {
         LocalDate now = LocalDate.now();
         LocalDate firstOfTarget = now.withDayOfMonth(1).minusMonths(monthsBack);
