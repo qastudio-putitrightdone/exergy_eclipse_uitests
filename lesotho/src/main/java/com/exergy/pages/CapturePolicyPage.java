@@ -7,6 +7,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.SelectOption;
 import io.qameta.allure.Step;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static com.exergy.constants.CapturePolicyConstants.*;
@@ -299,7 +300,12 @@ public class CapturePolicyPage extends ExergyBasePage {
 
     @Step("Select Benifishery client drop down value")
     private CapturePolicyPage selectBenifisheryClientValue() {
-        selectClientDropdown.selectOption(new SelectOption().setIndex(2));
+        Locator targetOption = selectClientDropdown.locator("option")
+                .filter(new Locator.FilterOptions().setHasText("2016"));
+        String valueId = targetOption.getAttribute("value");
+        selectClientDropdown.selectOption(valueId);
+//        selectClientDropdown.dispatchEvent("change");
+
         return this;
     }
 
@@ -354,7 +360,7 @@ public class CapturePolicyPage extends ExergyBasePage {
     public CapturePolicyPage addEndowBeneficiaryDetails() {
         clickOnAddBeneficieryIcon()
                 .selectBenifisheryClientValue()
-//                .selectRelationshipValue(SON)
+                .selectRelationshipValue(SON)
                 .selectBeneficieryType(BENEFICIERY_TYPE_DEATH_TRANSFER)
                 .enterbeneceryPercnt(BENEFICIERY_PERCENT)
                 .clickOkBeneficieryButton();
@@ -509,12 +515,14 @@ public class CapturePolicyPage extends ExergyBasePage {
         return this;
     }
 
+    @Step("Click on activate button")
     public CapturePolicyPage clickOnactivatepolicy() {
             page.locator("#btnCommit").click();
             attachScreenshot(page, "Clicking on activate policy button");
         return this;
     }
 
+    @Step("Check policy activation toast message")
     public void checkPolicyActivatioMessage() {
         page.waitForCondition(() -> toastMessage.isVisible());
         assertThat(toastMessage).hasText(POLICY_ACTIVATION_MESSAGE);

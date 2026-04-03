@@ -21,7 +21,7 @@ public class DashbaordTests extends ExergyAuthenticatedBase {
     }
 
     @Test
-    public void checkDashboardNavigation(ExergyUsers exergyUsers) {
+    public void checkDashboardNavigation() {
         DashboardPage dashboardPage = navigateTo(PageType.DASHBOARD);
         dashboardPage.verifyDashboardNavigation();
     }
